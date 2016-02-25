@@ -5,7 +5,8 @@ var ForumAnswer = React.createClass({
     onMarkCorrect: React.PropTypes.func.isRequired
   },
 
-  _markCorrect: function() {
+  _markCorrect: function(event) {
+    event.preventDefault();
     this.props.onMarkCorrect(this.props.id);
   },
 

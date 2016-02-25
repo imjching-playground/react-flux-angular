@@ -16,6 +16,14 @@ var answerData = {
 // store needs the event emitter capabilities
 var ForumStore = new EventEmitter();
 
+ForumStore.emitChange = function() {
+  this.emit('change');
+};
+
+ForumStore.addChangeListener = function(listener) {
+  this.on('change', listener);
+}
+
 ForumStore.getAnswers = function() {
   return answerData;
 };
@@ -24,11 +32,11 @@ ForumStore.addAnswer = function(newAnswer) {
   answerData[Object.keys(answerData).length + 1] = {
     body: newAnswer,
     correct: false
-  }
+  };
+  this.emitChange();
 };
 
 ForumStore.markAsCorrect = function(id) {
-
   // reset all the other answers
   for (key in answerData) {
     answerData[key].correct = false;
@@ -36,6 +44,7 @@ ForumStore.markAsCorrect = function(id) {
 
   // only one can be correct
   answerData[id].correct = true;
+  this.emitChange();
 };
 
 ForumDispatcher.register(function(action) {
@@ -52,4 +61,3 @@ ForumDispatcher.register(function(action) {
     }
   }
 });
-
