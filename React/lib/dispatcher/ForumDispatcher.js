@@ -1,1 +1,0 @@
-var ForumDispatcher = new Dispatcher();
